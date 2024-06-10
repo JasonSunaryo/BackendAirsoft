@@ -5,9 +5,6 @@
       <div class="footer-top section">
 
         <div class="footer-brand">
-
-          <a href="#" class="logo">Woodex</a>
-
           <ul>
 
             <li class="footer-list-item">
