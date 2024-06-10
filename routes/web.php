@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [ProductController::class, 'menu'])->name('product.menu');
 
 
 Route::get('/index', function () {
@@ -41,3 +39,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+
+Route::resource('/product', ProductController::class);
+

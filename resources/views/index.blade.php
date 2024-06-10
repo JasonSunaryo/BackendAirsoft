@@ -1,13 +1,7 @@
 @extends('layouts.template')
 @section('content')
 
-
-
 <body id="top">
-
-  <!-- 
-    - #HEADER
-  -->
 
   <header class="header" data-header>
     <div class="container">
@@ -19,28 +13,24 @@
         <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
       </div>
 
+      
       <a href="#" class="logo">Logan Tactical Stock</a>
-
+      <img src="{{ asset('assets/images/logan.png') }}" alt="Airsoftgun" style="width: 100px;">
       <div class="header-action">
 
         <button class="header-action-btn" aria-label="user">
-          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+          <ion-icon class="iconDiv" name="person-outline" aria-hidden="true"></ion-icon>
+          <a href="#" class="iconText">Profile</a>
         </button>
 
-        <button class="header-action-btn" aria-label="favorite list">
-          <ion-icon name="heart-outline" aria-hidden="true"></ion-icon>
-
-          <span class="btn-badge">0</span>
+        <button class="header-action-btn" aria-label="product list" onclick="window.location.href='/product'">
+          <ion-icon class="iconDiv" name="bag-handle-outline" aria-hidden="true"></ion-icon>
+          <a href="#" class="iconText">Product</a>
         </button>
-
+        
         <button class="header-action-btn" aria-label="cart">
-          <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
-
-          <span class="btn-badge">0</span>
-        </button>
-
-        <button class="header-action-btn" aria-label="open menu" data-nav-toggler>
-          <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+          <ion-icon class="iconDiv" name="business-outline" aria-hidden="true"></ion-icon>
+          <a href="#" class="iconText">Management</a>
         </button>
 
       </div>
@@ -48,8 +38,6 @@
     </div>
   </header>
 
+@endsection
 
-</body>
-
-
-
+<link rel="stylesheet" href="css/nav.css">

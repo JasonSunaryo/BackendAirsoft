@@ -6,8 +6,8 @@
     <!-- 
       - primary meta tag
     -->
-    <title>Woodex - Get Quality Furniture</title>
-    <meta name="title" content="Woodex - Get Quality Furniture">
+    <title>Logan Tactical Stock</title>
+    <meta name="title" content="Logan Tactical Stock">
     <meta name="description" content="This is an eCommerce html template made by codewithsadee">
   
     <!-- 

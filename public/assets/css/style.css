@@ -1051,3 +1051,4 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
   .product-list { grid-template-columns: repeat(4, 1fr); }
 
 }
+
