@@ -30,7 +30,7 @@
         
         <button class="header-action-btn" aria-label="cart">
           <ion-icon class="iconDiv" name="business-outline" aria-hidden="true"></ion-icon>
-          <a href="#" class="iconText">Management</a>
+          <a href="#" class="iconText">Revenue</a>
         </button>
 
       </div>
