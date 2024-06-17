@@ -52,6 +52,16 @@
                                     @method('DELETE')
                                     <button class="btn btn-danger m-0">Delete</button>
                                 </form>
+                                @if($rs->stock > 0)
+                                    <form action="{{ route('product.decrease', $rs->id) }}" method="POST" class="btn btn-danger p-0 ms-2">
+                                        @csrf
+                                        <button class="btn btn-danger m-0">Out</button>
+                                    </form>
+                                @endif
+                                <form action="{{ route('product.increase', $rs->id) }}" method="POST" class="btn btn-success p-0 ms-2">
+                                    @csrf
+                                    <button class="btn btn-success m-0">In</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -61,7 +71,6 @@
                     <td class="text-center" colspan="9">Product not found</td>
                 </tr>
             @endif
-            
         </tbody>
     </table>
 @endsection

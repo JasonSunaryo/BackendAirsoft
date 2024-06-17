@@ -18,4 +18,9 @@ class Product extends Model
         'description',
         'image', // Menambahkan image ke fillable
     ];
+
+    public function stockLogs()
+    {
+        return $this->hasMany(StockLog::class);
+    }
 }

@@ -3,6 +3,7 @@
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\StockLog;
 
 class ProductController extends Controller
 {
@@ -70,4 +71,47 @@ class ProductController extends Controller
         $product = Product::orderBy('created_at', 'DESC')->get();
         return view('index', compact('product'));
     }
+
+    public function increaseStock($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $product->stock += 1;
+            $product->save();
+    
+            StockLog::create([
+                'product_id' => $product->id,
+                'change' => 1
+            ]);
+    
+            return redirect()->back()->with('success', 'Stock increased successfully.');
+        }
+        return redirect()->back()->with('error', 'Product not found.');
+    }
+    
+    public function decreaseStock($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $product->stock -= 1;
+            $product->save();
+    
+            StockLog::create([
+                'product_id' => $product->id,
+                'change' => -1
+            ]);
+    
+            return redirect()->back()->with('success', 'Stock decreased successfully.');
+        }
+        return redirect()->back()->with('error', 'Product not found.');
+    }
+
+    public function history()
+{
+    $stockLogs = StockLog::with('product')->get();
+    return view('history', compact('stockLogs'));
 }
+
+}
+
+
