@@ -3,6 +3,14 @@
 @section('body')
     <h1 class="mb-0">Stock History</h1>
     <hr />
+
+    {{-- Tombol Clear History --}}
+    <form action="{{ route('stocklogs.clear') }}" method="POST" class="mb-3">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Clear History</button>
+    </form>
+
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>

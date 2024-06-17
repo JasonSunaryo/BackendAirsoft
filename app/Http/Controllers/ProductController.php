@@ -112,6 +112,12 @@ class ProductController extends Controller
     return view('history', compact('stockLogs'));
 }
 
+public function clearStockLogs()
+{
+    StockLog::truncate(); // Menghapus semua data dari tabel stock_logs
+
+    return redirect()->route('product.index')->with('success', 'Stock history cleared successfully');
+}
 }
 
 
