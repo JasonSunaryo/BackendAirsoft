@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockLogController;
+use App\Http\Controllers\ProfitController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +26,6 @@ Route::get('/profile', function () {
 });
 
 
-
 Route::group(['middleware' => 'auth'], function(){
    
    
@@ -40,5 +41,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
+
 Route::resource('/product', ProductController::class);
 
+Route::post('/product/increase/{id}', [ProductController::class, 'increaseStock'])->name('product.increase');
+Route::post('/product/decrease/{id}', [ProductController::class, 'decreaseStock'])->name('product.decrease');
+
+Route::get('/product/increase/{id}', [ProductController::class, 'increaseStock'])->name('product.increaseStock');
+Route::get('/product/decrease/{id}', [ProductController::class, 'decreaseStock'])->name('product.decreaseStock');
+
+
+Route::get('/history', [StockLogController::class, 'index'])->name('history');
+
+Route::get('/profit', [ProfitController::class, 'index'])->name('profit.index');
+
+Route::delete('/stocklogs/clear', [ProductController::class, 'clearStockLogs'])->name('stocklogs.clear');

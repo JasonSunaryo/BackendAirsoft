@@ -1,13 +1,14 @@
 <?php
- 
- namespace App\Models;
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -16,6 +17,11 @@ class Product extends Model
         'stock',
         'type',
         'description',
-        'image', // Menambahkan image ke fillable
+        'image',
     ];
+
+    public function stockLogs()
+    {
+        return $this->hasMany(StockLog::class);
+    }
 }
