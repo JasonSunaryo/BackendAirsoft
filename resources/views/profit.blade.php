@@ -28,7 +28,14 @@
 
         <div class="row mb-4">
             <div class="col">
+                <!-- Tambahkan kode untuk menampilkan grafik profit atau tabel profit di sini -->
                 <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <a href="{{ route('reports.create') }}" class="btn btn-primary">Buat Laporan</a>
             </div>
         </div>
     </div>
