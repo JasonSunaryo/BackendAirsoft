@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class StockLog extends Model
 {
-    protected $fillable = ['product_id', 'change'];
+    use HasFactory;
+
+    protected $fillable = [
+        'product_id',
+        'change',
+        'profit',
+    ];
 
     public function product()
     {

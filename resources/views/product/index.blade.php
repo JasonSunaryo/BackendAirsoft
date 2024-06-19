@@ -26,8 +26,8 @@
             </tr>
         </thead>
         <tbody>
-            @if($product->count() > 0)
-                @foreach($product as $rs)
+            @if($products->count() > 0)
+                @foreach($products as $rs)
                     <tr>
                         <td class="align-middle">{{ $loop->iteration }}</td>
                         <td class="align-middle">{{ $rs->title }}</td>

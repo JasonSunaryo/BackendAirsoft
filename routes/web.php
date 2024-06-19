@@ -26,7 +26,6 @@ Route::get('/profile', function () {
 });
 
 
-
 Route::group(['middleware' => 'auth'], function(){
    
    

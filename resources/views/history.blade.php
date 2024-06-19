@@ -25,9 +25,9 @@
             @forelse($stockLogs as $log)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
-                    <td class="align-middle">{{ $log->product->title }}</td>
+                    <td class="align-middle">{{ $log->product ? $log->product->title : 'Deleted Product' }}</td>
                     <td class="align-middle">{{ $log->change > 0 ? "+{$log->change}" : $log->change }}</td>
-                    <td class="align-middle">{{ $log->product->price }}</td>
+                    <td class="align-middle">{{ $log->product ? $log->product->price : 'N/A' }}</td>
                     <td class="align-middle">{{ $log->created_at }}</td>
                 </tr>
             @empty

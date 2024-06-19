@@ -31,7 +31,7 @@
                 <canvas id="profitChart"></canvas>
             </div>
         </div>
-
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -55,7 +55,7 @@
         var chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: Object.keys(profitData[labels[0]]),
+                labels: @json($allDates),
                 datasets: datasets
             },
             options: {
