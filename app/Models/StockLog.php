@@ -15,6 +15,12 @@ class StockLog extends Model
         'profit',
     ];
 
+    public function report()
+    {
+        return $this->belongsTo(Report::class);
+    }
+
+
     public function product()
     {
         return $this->belongsTo(Product::class);
