@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\StockLog;
-use Carbon\Carbon;
+use App\Models\Comment;
 
 class ProductController extends Controller
 {
-
     public function index()
     {
+
+        
         $products = Product::orderBy('created_at', 'DESC')->get();
         return view('product.index', compact('products'));
     }
+
+    
 
     public function create()
     {
@@ -30,7 +33,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'type' => 'required',
             'description' => 'required',
-            'image' => 'required|image|max:2048', // Validasi untuk gambar
+            'image' => 'required|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -67,7 +70,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'type' => 'required',
             'description' => 'required',
-            'image' => 'sometimes|image|max:2048', // Validasi untuk gambar
+            'image' => 'sometimes|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -91,8 +94,9 @@ class ProductController extends Controller
 
     public function menu()
     {
-        $product = Product::orderBy('created_at', 'DESC')->get();
-        return view('index', compact('product'));
+        $products = Product::orderBy('created_at', 'DESC')->get();
+        $comments = Comment::with('user')->get();
+        return view('index', compact('products', 'comments'));
     }
 
     public function increaseStock($id)
@@ -101,43 +105,41 @@ class ProductController extends Controller
         if ($product) {
             $product->stock += 1;
             $product->save();
-    
+
             StockLog::create([
                 'product_id' => $product->id,
-                'change' => 1, // 1 karena stok ditambah 1
+                'change' => 1,
             ]);
-    
+
             return redirect()->back()->with('success', 'Stock increased successfully.');
         }
         return redirect()->back()->with('error', 'Product not found.');
     }
-    
+
     public function decreaseStock($id)
     {
         $product = Product::findOrFail($id);
         if ($product) {
             $product->stock -= 1;
             $product->save();
-    
-            // Hitung profit dari penjualan
+
             $profit = $product->price - $product->cost_price;
-    
+
             StockLog::create([
                 'product_id' => $product->id,
-                'change' => -1, // Minus karena mengurangi stok
-                'profit' => $profit, // Simpan profit dari penjualan
+                'change' => -1,
+                'profit' => $profit,
             ]);
-    
+
             return redirect()->back()->with('success', 'Stock decreased successfully.');
         }
         return redirect()->back()->with('error', 'Product not found.');
     }
-    
-    
+
     public function clearStockLogs()
     {
-        StockLog::truncate(); // Menghapus semua data dari tabel stock_logs
-    
+        StockLog::truncate();
+
         return redirect()->route('product.index')->with('success', 'Stock history cleared successfully');
     }
 }

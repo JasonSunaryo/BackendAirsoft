@@ -356,83 +356,6 @@ body.active { overflow: hidden; }
   pointer-events: all;
 }
 
-
-
-
-
-/*-----------------------------------*\
-  #HERO
-\*-----------------------------------*/
-
-.hero { padding-block-start: calc(var(--section-padding) + 60px); }
-
-.hero-list {
-  display: grid;
-  gap: 15px;
-}
-
-.hero-card { position: relative; }
-
-.hero-card .img-cover { transition: var(--transition-2); }
-
-.hero-card:is(:hover, :focus) .img-cover { transform: scale(1.1); }
-
-.hero-card .card-content {
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  right: 30px;
-}
-
-.hero-card :is(.card-title, .card-text) { font-weight: var(--fw-500); }
-
-.hero-card .card-title {
-  font-size: var(--fs-3);
-  transition: var(--transition-1);
-}
-
-.hero-card .card-title:is(:hover, :focus) { color: var(--tan-crayola); }
-
-
-
-
-
-/*-----------------------------------*\
-  #ABOUT
-\*-----------------------------------*/
-
-.about { text-align: center; }
-
-.about .section-title {
-  font-family: var(--ff-mr_de_haviland);
-  font-size: var(--fs-1);
-  font-weight: var(--fw-500);
-}
-
-.about .section-text { margin-block: 12px 45px; }
-
-.about-card { position: relative; }
-
-.about-card .img-cover { transition: var(--transition-2); }
-
-.about-card:is(:hover, :focus) .img-cover { transform: scale(1.1); }
-
-.about-card .play-btn {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  color: var(--white);
-  font-size: 80px;
-  transition: var(--transition-2);
-}
-
-.about-card:is(:hover, :focus) .play-btn { background-color: var(--black_50); }
-
-
-
-
-
 /*-----------------------------------*\
   #PRODUCT
 \*-----------------------------------*/
@@ -469,7 +392,7 @@ body.active { overflow: hidden; }
   transition: var(--transition-1);
 }
 
-.product-card .card-banner:is(:hover, :focus-within)::before { opacity: 1; }
+
 
 .product-card .card-action-list {
   position: absolute;
@@ -480,11 +403,6 @@ body.active { overflow: hidden; }
   gap: 15px;
   opacity: 0;
   transition: var(--transition-2);
-}
-
-.product-card .card-banner:is(:hover, :focus-within) .card-action-list {
-  transform: translate(-50%, -50%);
-  opacity: 1;
 }
 
 .product-card .card-action-btn {
@@ -570,126 +488,6 @@ body.active { overflow: hidden; }
     transform: translateY(0);
   }
 }
-
-
-
-
-
-/*-----------------------------------*\
-  #BLOG
-\*-----------------------------------*/
-
-.blog .title-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px 50px;
-  margin-block-end: 50px;
-}
-
-.blog .btn-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: var(--fw-500);
-  transition: var(--transition-1);
-}
-
-.blog .btn-link:is(:hover, :focus) { color: var(--tan-crayola); }
-
-.blog-card .card-banner { position: relative; }
-
-.blog-card .card-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: var(--white);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 15px;
-  transform: translateX(100%);
-  transition: var(--transition-2);
-}
-
-.blog-card:is(:hover, :focus) .card-btn { transform: translateX(0); }
-
-.blog-card .card-title {
-  margin-block: 20px 10px;
-  transition: var(--transition-1);
-}
-
-.blog-card .card-title:is(:hover, :focus) { color: var(--tan-crayola); }
-
-.blog-card .card-meta-list {
-  display: flex;
-  align-items: center;
-}
-
-.card-meta-item {
-  position: relative;
-  color: var(--granite-gray);
-  font-size: var(--fs-5);
-}
-
-.card-meta-item:not(:last-child)::after {
-  content: "/";
-  margin-inline: 8px;
-  color: var(--spanish-gray);
-}
-
-.card-meta-text {
-  display: inline-block;
-  color: var(--black);
-  transition: var(--transition-1);
-}
-
-a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
-
-
-
-
-
-/*-----------------------------------*\
-  #NEWSLATTER
-\*-----------------------------------*/
-
-.newsletter {
-  --section-padding: 20px;
-  background-color: var(--cultured);
-}
-
-.newsletter-card { padding-inline: 15px; }
-
-.newsletter-card .card-content { margin-block-end: 40px; }
-
-.newsletter .section-title { margin-block-end: 8px; }
-
-.newsletter-card .h2 { --fs-2: 2.6rem; }
-
-.newsletter .card-form { position: relative; }
-
-.newsletter-card .email-field {
-  background-color: var(--white);
-  padding-block: 14px;
-  padding-inline: 20px 50px;
-  outline: 3px solid transparent;
-  outline-offset: 0;
-  transition: var(--transition-1);
-}
-
-.newsletter-card .email-field:focus { outline-color: var(--black_25); }
-
-.newsletter-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding-inline: 20px;
-}
-
-
-
 
 
 /*-----------------------------------*\
@@ -1052,3 +850,100 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
 
 }
 
+.container2 {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  border-radius: 10px;
+}
+
+h3 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.comment-section {
+  margin-top: 20px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.comment-form textarea {
+  resize: none;
+  height: 150px; /* Adjusted height */
+  padding: 15px; /* Adjusted padding */
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.comment-form button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.comment-form button:hover {
+  background-color: #0056b3;
+}
+
+.comments {
+  margin-top: 20px;
+}
+
+.comment {
+  background-color: #f9f9f9;
+  padding: 15px; /* Adjusted padding */
+  border-radius: 5px;
+  margin-bottom: 15px; /* Adjusted margin */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-text {
+  margin: 5px 0;
+  color: #555;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.comment-action {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.comment-action a,
+.comment-action form {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.comment-action a:hover,
+.comment-action form:hover {
+  text-decoration: underline;
+}

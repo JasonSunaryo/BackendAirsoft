@@ -16,7 +16,7 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link btn btn-primary text-white mx-2" href="{{ route('login') }}" role="button">
+                            <a class="nav-link btn btn-primary text-white mx-2 login-register-link" href="{{ route('login') }}" role="button">
                                 {{ __('Login') }}
                             </a>
                         </li>
@@ -24,7 +24,7 @@
 
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="{{ route('register') }}" role="button">
+                            <a class="nav-link btn btn-success text-white mx-2 login-register-link" href="{{ route('register') }}" role="button">
                                 {{ __('Register') }}
                             </a>
                         </li>
@@ -36,10 +36,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('profile') }}">
-                                {{ __('Profile') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            <a class="nav-link btn btn-primary text-white mx-2" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
@@ -56,3 +53,9 @@
     </div>
 </nav>
 <link rel="stylesheet" href="css/app.css">
+
+<style>
+    .login-register-link {
+        margin-top: 5px; /* Adjust this value as needed */
+    }
+</style>

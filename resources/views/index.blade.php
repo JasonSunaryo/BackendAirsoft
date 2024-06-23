@@ -7,20 +7,14 @@
     <div class="container">
       @include('layouts.nav')
 
-      <div class="input-wrapper">
-        <input type="search" name="search" placeholder="Search Anything..." class="input-field">
-
-        <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
-      </div>
-
       
       <a href="#" class="logo">Logan Tactical Stock</a>
       <img src="{{ asset('assets/images/logan.png') }}" alt="Airsoftgun" style="width: 100px;">
       <div class="header-action">
-
+        @if(Auth::check() && Auth::user()->role == 'admin')
         <button class="header-action-btn" aria-label="user">
-          <ion-icon class="iconDiv" name="person-outline" aria-hidden="true"></ion-icon>
-          <a href="#" class="iconText">Profile</a>
+          <ion-icon class="iconDiv" name="book-outline" aria-hidden="true"></ion-icon>
+          <a href="/history" class="iconText">History</a>
         </button>
 
         <button class="header-action-btn" aria-label="product list" onclick="window.location.href='/product'">
@@ -30,14 +24,13 @@
         
         <button class="header-action-btn" aria-label="cart">
           <ion-icon class="iconDiv" name="business-outline" aria-hidden="true"></ion-icon>
-          <a href="#" class="iconText">Revenue</a>
+          <a href="/profit" class="iconText">Revenue</a>
         </button>
-
+        @endif
       </div>
 
     </div>
   </header>
 
-@endsection
-
+@endsec
 <link rel="stylesheet" href="css/nav.css">
