@@ -9,7 +9,7 @@
 }
 
 .navbar-nav .nav-link {
-    padding: 10px;
+margin-left: 10px;
     display: inline-block;
 }
 .navbar-nav .dropdown-menu {
