@@ -143,70 +143,83 @@
     </div>
   </div>
   @endauth
-  
-  <!-- ionicon link -->
-  <script type="module">
+
+
+  <!-- Filter, sort, and search functionality script -->
+<script type="module">
+    // Mendapatkan semua elemen tombol filter, kartu produk, elemen select sort, dan input pencarian
     const filterButtons = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card');
     const sortSelect = document.getElementById('sort');
     const searchInput = document.getElementById('search');
-  
+
+    // Menambahkan event listener ke setiap tombol filter
     filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const filterValue = button.getAttribute('data-filter');
-  
-        // Remove 'active' class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        // Add 'active' class to the clicked button
-        button.classList.add('active');
-  
-        // Show/hide product cards based on filter
-        filterProducts(filterValue, searchInput.value);
-      });
+        button.addEventListener('click', () => {
+            const filterValue = button.getAttribute('data-filter');
+
+            // Menghapus kelas 'active' dari semua tombol
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Menambahkan kelas 'active' ke tombol yang diklik
+            button.classList.add('active');
+
+            // Menampilkan/menyembunyikan kartu produk berdasarkan filter
+            filterProducts(filterValue, searchInput.value);
+        });
     });
-  
+
+    // Menambahkan event listener ke elemen select untuk sort
     sortSelect.addEventListener('change', () => {
-      const sortValue = sortSelect.value;
-      sortProducts(sortValue);
+        const sortValue = sortSelect.value;
+        sortProducts(sortValue);
     });
-  
+
+    // Menambahkan event listener ke input pencarian
     searchInput.addEventListener('input', () => {
-      const filterValue = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-      filterProducts(filterValue, searchInput.value);
+        const filterValue = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+        filterProducts(filterValue, searchInput.value);
     });
-  
+
+    // Fungsi untuk memfilter produk berdasarkan nilai filter dan pencarian
     function filterProducts(filterValue, searchValue) {
-      searchValue = searchValue.toLowerCase();
-      productCards.forEach(card => {
-        const cardType = card.getAttribute('data-type');
-        const cardTitle = card.getAttribute('data-title').toLowerCase();
-        if ((filterValue === 'all' || cardType === filterValue) && cardTitle.includes(searchValue)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+        searchValue = searchValue.toLowerCase();
+        productCards.forEach(card => {
+            const cardType = card.getAttribute('data-type');
+            const cardTitle = card.getAttribute('data-title').toLowerCase();
+            // Menampilkan/menyembunyikan kartu berdasarkan tipe dan pencarian
+            if ((filterValue === 'all' || cardType === filterValue) && cardTitle.includes(searchValue)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
     }
-  
+
+    // Fungsi untuk mengurutkan produk berdasarkan nilai sort
     function sortProducts(sortValue) {
-      const productList = document.querySelector('.grid-list');
-      const sortedProducts = [...productCards];
-  
-      if (sortValue === 'price-asc') {
-        sortedProducts.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
-      } else if (sortValue === 'price-desc') {
-        sortedProducts.sort((a, b) => parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price')));
-      } else if (sortValue === 'title-asc') {
-        sortedProducts.sort((a, b) => a.getAttribute('data-title').localeCompare(b.getAttribute('data-title')));
-      } else if (sortValue === 'title-desc') {
-        sortedProducts.sort((a, b) => b.getAttribute('data-title').localeCompare(a.getAttribute('data-title')));
-      } else {
-        sortedProducts.sort((a, b) => a.dataset.index - b.dataset.index); // Assuming dataset.index holds the original order index
-      }
-  
-      productList.innerHTML = '';
-      sortedProducts.forEach(card => productList.appendChild(card));
+        const productList = document.querySelector('.grid-list');
+        const sortedProducts = [...productCards];
+
+        // Urutkan produk berdasarkan opsi yang dipilih
+        if (sortValue === 'price-asc') {
+            sortedProducts.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
+        } else if (sortValue === 'price-desc') {
+            sortedProducts.sort((a, b) => parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price')));
+        } else if (sortValue === 'title-asc') {
+            sortedProducts.sort((a, b) => a.getAttribute('data-title').localeCompare(b.getAttribute('data-title')));
+        } else if (sortValue === 'title-desc') {
+            sortedProducts.sort((a, b) => b.getAttribute('data-title').localeCompare(a.getAttribute('data-title')));
+        } else {
+            sortedProducts.sort((a, b) => a.dataset.index - b.dataset.index); // Urutkan berdasarkan urutan asli (index)
+        }
+
+        // Hapus konten lama dan tambahkan kartu yang sudah diurutkan
+        productList.innerHTML = '';
+        sortedProducts.forEach(card => productList.appendChild(card));
     }
-  </script>
- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</script>
+
+<!-- Menambahkan ionicons untuk ikon -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+

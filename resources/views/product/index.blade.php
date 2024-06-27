@@ -29,6 +29,7 @@
             @if($products->count() > 0)
                 @foreach($products as $rs)
                     <tr>
+                        {{-- looping untuk tampilan produk di dashboard --}}
                         <td class="align-middle">{{ $loop->iteration }}</td>
                         <td class="align-middle">{{ $rs->title }}</td>
                         <td class="align-middle">{{ $rs->price }}</td>

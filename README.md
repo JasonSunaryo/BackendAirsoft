@@ -23,7 +23,12 @@ CARA PEMAKAIAN
 
 
 
+CARA PEMAKAIAN UNTUK ADMIN
 
+1. Untuk melakukan CRUD produk, buka menu produk dan tekan Add Product, lalu isi kolom-kolom sesuai data dan tekan submit jika sudah.
+2. Untuk melihat stocklog/history keluar masuk barang, buka menu history dan jika ingin menghapus history tekan tombol clear history.
+3. Untuk melihat grafik profit penjualan, buka menu revenue dan pilih tanggal sesuai yang diinginkan.
+4. Untuk membuat laporan keuntungan penjualan bisa menekan tombol buat laporan dibagian bawah page profit, lalu pilih tanggal yang diinginkan dan jika inging melihat detail laporanya, tekan tombol detail.
 
 
 
