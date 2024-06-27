@@ -17,30 +17,34 @@
                         @endif
 
                         <table class="table table-bordered">
-                            <tr>
-                                <th>No</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Total Profit</th>
-                                <th>Action</th>
-                            </tr>
-                            @foreach ($reports as $report)
-                            <tr>
-                                <td>{{ $report->id }}</td>
-                                <td>{{ $report->start_date }}</td>
-                                <td>{{ $report->end_date }}</td>
-                                <td>{{ $report->total_profit }}</td>
-                                <td>
-                                    <form action="{{ route('reports.destroy',$report->id) }}" method="POST">
-                                    <a href="{{ route('reports.show', $report->id) }}" class="btn btn-info">Detail</a>
-                                        <a class="btn btn-primary" href="{{ route('reports.edit',$report->id) }}">Edit</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Total Profit</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($reports as $report)
+                                    <tr>
+                                        <td>{{ $report->id }}</td>
+                                        <td>{{ $report->start_date }}</td>
+                                        <td>{{ $report->end_date }}</td>
+                                        <td>{{ $report->total_profit }}</td>
+                                        <td>
+                                            <form action="{{ route('reports.destroy',$report->id) }}" method="POST">
+                                                <a href="{{ route('reports.show', $report->id) }}" class="btn btn-info">Detail</a>
+                                                <a class="btn btn-primary" href="{{ route('reports.edit',$report->id) }}">Edit</a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

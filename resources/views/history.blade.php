@@ -17,7 +17,9 @@
                 <th>#</th>
                 <th>Product Name</th>
                 <th>Change</th>
+                <th>Cost Price</th>
                 <th>Price</th>
+                <th>Type</th>
                 <th>Date</th>
             </tr>
         </thead>
@@ -28,11 +30,13 @@
                     <td class="align-middle">{{ $log->product ? $log->product->title : 'Deleted Product' }}</td>
                     <td class="align-middle">{{ $log->change > 0 ? "+{$log->change}" : $log->change }}</td>
                     <td class="align-middle">{{ $log->product ? $log->product->price : 'N/A' }}</td>
+                    <td class="align-middle">{{ $log->product ? $log->product->cost_price : 'N/A' }}</td>
+                    <td class="align-middle">{{ $log->product ? $log->product->type : 'N/A' }}</td>
                     <td class="align-middle">{{ $log->created_at }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td class="text-center" colspan="5">No history found</td>
+                    <td class="text-center" colspan="7">No history found</td>
                 </tr>
             @endforelse
         </tbody>
