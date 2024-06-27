@@ -29,28 +29,20 @@ class ReportController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
     
-        // Ambil semua StockLog dalam rentang tanggal
-        $stockLogs = StockLog::whereBetween('created_at', [$request->start_date, $request->end_date])
+        // Menggunakan Carbon untuk menyesuaikan waktu
+        $startDate = Carbon::parse($request->start_date)->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->endOfDay();
+    
+        // Ambil semua StockLog dalam rentang waktu yang sudah disesuaikan
+        $stockLogs = StockLog::whereBetween('created_at', [$startDate, $endDate])
                              ->where('change', '<', 0) // hanya transaksi keluar (stok berkurang)
                              ->with('product') // load data produk terkait
                              ->get();
-    
         // Hitung total profit dari StockLog
         $totalProfit = 0;
         foreach ($stockLogs as $log) {
-            $productPrice = $log->product->price ?? 0;
-            $costPrice = $log->product->cost_price ?? 0;
-            $totalProfit += abs($log->change) * ($productPrice - $costPrice);
-        }
-    
-        // Jika totalProfit masih 0, coba mencari transaksi keluar yang berbeda
-        if ($totalProfit === 0) {
-            $stockLogs = StockLog::whereDate('created_at', $request->start_date)
-                                 ->where('change', '<', 0)
-                                 ->with('product')
-                                 ->get();
-    
-            foreach ($stockLogs as $log) {
+            // Pastikan product tidak null sebelum mengambil price dan cost_price
+            if ($log->product) {
                 $productPrice = $log->product->price ?? 0;
                 $costPrice = $log->product->cost_price ?? 0;
                 $totalProfit += abs($log->change) * ($productPrice - $costPrice);
@@ -58,7 +50,7 @@ class ReportController extends Controller
         }
     
         // Simpan data laporan baru
-        Report::create([
+        $report = Report::create([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'total_profit' => $totalProfit,
@@ -68,48 +60,47 @@ class ReportController extends Controller
         return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat');
     }
     
+    
 
     public function show($id)
     {
         try {
-            // Ambil laporan yang akan ditampilkan beserta relasi stockLogs
             $report = Report::findOrFail($id);
-            $endDate = Carbon::parse($report->end_date)->endOfDay(); // Menambahkan waktu akhir hari untuk rentang tanggal akhir
-    
+            $endDate = Carbon::parse($report->end_date)->endOfDay();
+
             $stockLogs = StockLog::where('created_at', '>=', $report->start_date)
                                  ->where('created_at', '<=', $endDate)
                                  ->where('change', '<', 0)
                                  ->with('product')
                                  ->get();
-    
-            return view('reports.show', compact('report', 'stockLogs'));
-    
+
+            $totalItems = $stockLogs->where('change', '<', 0)->sum(function ($log) {
+                return abs($log->change);
+            });
+
+            return view('reports.show', compact('report', 'stockLogs', 'totalItems'));
+
         } catch (\Exception $e) {
-            // Tangani jika laporan tidak ditemukan
             return redirect()->back()->with('error', 'Laporan tidak ditemukan: ' . $e->getMessage());
         }
     }
-    
-    
 
     public function edit($id)
     {
         try {
-            // Ambil laporan yang akan di edit beserta relasi stockLogs
             $report = Report::findOrFail($id);
             $stockLogs = StockLog::whereBetween('created_at', [$report->start_date, $report->end_date])
                                  ->where('change', '<', 0)
                                  ->with('product')
                                  ->get();
-    
+
             return view('reports.edit', compact('report', 'stockLogs'));
-    
+
         } catch (\Exception $e) {
-            // Tangani jika laporan tidak ditemukan
             return redirect()->back()->with('error', 'Laporan tidak ditemukan: ' . $e->getMessage());
         }
     }
-    
+
     public function update(Request $request, $id)
     {
         // Validasi request
@@ -122,23 +113,30 @@ class ReportController extends Controller
             // Ambil laporan yang akan diupdate
             $report = Report::findOrFail($id);
     
-            // Ambil semua StockLog dalam rentang tanggal yang baru
-            $stockLogs = StockLog::whereBetween('created_at', [$request->start_date, $request->end_date])
+            // Menggunakan Carbon untuk menyesuaikan waktu
+            $startDate = Carbon::parse($request->start_date)->startOfDay();
+            $endDate = Carbon::parse($request->end_date)->endOfDay();
+    
+            // Ambil semua StockLog dalam rentang waktu yang sudah disesuaikan
+            $stockLogs = StockLog::whereBetween('created_at', [$startDate, $endDate])
                                  ->where('change', '<', 0)
+                                 ->with('product')
                                  ->get();
     
-            // Hitung total profit dari StockLog
+            // Hitung total profit dari StockLog yang didapat
             $totalProfit = 0;
             foreach ($stockLogs as $log) {
-                $productPrice = $log->product->price ?? 0;
-                $costPrice = $log->product->cost_price ?? 0;
-                $totalProfit += abs($log->change) * ($productPrice - $costPrice);
+                if ($log->product) {
+                    $productPrice = $log->product->price ?? 0;
+                    $costPrice = $log->product->cost_price ?? 0;
+                    $totalProfit += abs($log->change) * ($productPrice - $costPrice);
+                }
             }
     
             // Update data laporan
             $report->update([
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
                 'total_profit' => $totalProfit,
             ]);
     
@@ -156,19 +154,21 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
         $report->delete();
 
-        // Redirect ke halaman daftar laporan dengan pesan sukses
         return redirect()->route('reports.index')->with('success', 'Laporan berhasil dihapus');
     }
 
     public function detail($id)
-{
-    $report = Report::findOrFail($id);
-    $stockLogs = StockLog::whereBetween('created_at', [$report->start_date, $report->end_date])
-                         ->where('change', '<', 0)
-                         ->with('product')
-                         ->get();
+    {
+        $report = Report::findOrFail($id);
+        $stockLogs = StockLog::whereBetween('created_at', [$report->start_date, $report->end_date])
+                             ->where('change', '<', 0)
+                             ->with('product')
+                             ->get();
 
-    return view('reports.detail', compact('report', 'stockLogs'));
-}
+        $totalItems = $stockLogs->where('change', '<', 0)->sum(function ($log) {
+            return abs($log->change);
+        });
 
+        return view('reports.detail', compact('report', 'stockLogs', 'totalItems'));
+    }
 }
