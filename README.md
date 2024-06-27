@@ -1,4 +1,4 @@
-<!-- Backend Kelompok 4 
+<!-- Backend Kelompok 6
 Jason Sunaryo 535220123
 Hanson Nicholas 535220121
 Benaya Juanda 535220266
