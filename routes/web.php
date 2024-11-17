@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/product/decrease/{id}', [ProductController::class, 'decreaseStock'])->name('product.decreaseStock');
 
     Route::get('/history', [StockLogController::class, 'index'])->name('history');
+    Route::get('/stocklogs', [StockLogController::class, 'index'])->name('stocklogs.index');
+    Route::patch('/stocklogs/{id}', [StockLogController::class, 'updateDate'])->name('stocklogs.updateDate');
     Route::get('/profit', [ProfitController::class, 'index'])->name('profit.index');
     Route::delete('/stocklogs/clear', [ProductController::class, 'clearStockLogs'])->name('stocklogs.clear');
 

@@ -43,35 +43,62 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var ctx = document.getElementById('profitChart').getContext('2d');
+    
+        // Data dari controller
         var profitData = @json($profitData);
-
-        // Ambil label untuk chart dari keys profitData (tipe barang)
-        var labels = Object.keys(profitData);
-
-        var datasets = [];
-        labels.forEach(function(label) {
-            var data = Object.values(profitData[label]);
-            datasets.push({
-                label: label,
+        var allDates = @json($allDates); // Semua tanggal dalam rentang
+    
+        // Siapkan datasets untuk Chart.js
+        var datasets = Object.keys(profitData).map(function (type) {
+            // Data profit untuk setiap tipe barang sesuai urutan tanggal
+            var data = allDates.map(function (date) {
+                return profitData[type][date] || 0; // Nilai default 0 jika tidak ada profit
+            });
+    
+            return {
+                label: type,
                 data: data,
                 fill: false,
-                borderColor: '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6) // warna random
-            });
+                borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Warna acak
+                tension: 0.1 // Garis lebih halus
+            };
         });
-
+    
+        // Buat chart
         var chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: @json($allDates),
+                labels: allDates, // Tanggal pada sumbu X
                 datasets: datasets
             },
             options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Profit'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tanggal'
+                        }
                     }
                 }
             }
         });
     </script>
+    
 @endsection

@@ -26,53 +26,66 @@ class ProfitController extends Controller
             ->whereDate('created_at', '<=', $endDate)
             ->get();
 
-        // Inisialisasi array untuk menyimpan data profit bersih
+        // Inisialisasi array untuk menyimpan data profit bersih dan barang terjual
         $profitData = [];
-
-        // Inisialisasi array untuk menyimpan data barang terjual (stock keluar)
         $soldProducts = [];
 
         // Buat array untuk semua tanggal dalam rentang
         $allDates = [];
         $currentDate = Carbon::parse($startDate);
-        $endDate = Carbon::parse($endDate);
-        while ($currentDate->lte($endDate)) {
+        $endDateCarbon = Carbon::parse($endDate);
+        while ($currentDate->lte($endDateCarbon)) {
             $allDates[] = $currentDate->format('Y-m-d');
             $currentDate->addDay();
         }
 
+        // Proses setiap transaksi
         foreach ($transactions as $transaction) {
-            // Ambil produk berdasarkan product_id dari stock_log
+            // Validasi data transaksi
+            if (!$transaction->created_at || !$transaction->product_id) {
+                continue;
+            }
+
             $product = Product::withTrashed()->find($transaction->product_id);
-
             if ($product) {
-                // Hitung profit bersih
-                $profit = isset($transaction->profit) ? $transaction->profit : 0;
+                $productType = $product->type ?? 'Unknown';
 
-                // Simpan profit bersih berdasarkan tipe barang
-                if (!isset($profitData[$product->type])) {
-                    $profitData[$product->type] = [];
-                    $soldProducts[$product->type] = [];
+                // Inisialisasi tipe produk jika belum ada
+                if (!isset($profitData[$productType])) {
+                    $profitData[$productType] = [];
+                    $soldProducts[$productType] = [];
                 }
 
-                // Ambil tanggal transaksi dengan format Y-m-d
+                // Ambil tanggal transaksi
                 $date = Carbon::parse($transaction->created_at)->format('Y-m-d');
 
-                // Inisialisasi profit untuk tanggal tersebut jika belum ada
-                if (!isset($profitData[$product->type][$date])) {
-                    $profitData[$product->type][$date] = 0;
-                    $soldProducts[$product->type][$date] = 0;
+                // Inisialisasi tanggal jika belum ada
+                if (!isset($profitData[$productType][$date])) {
+                    $profitData[$productType][$date] = 0;
+                    $soldProducts[$productType][$date] = 0;
                 }
 
-                // Tambahkan profit ke dalam data profit bersih
-                $profitData[$product->type][$date] += $profit;
-
-                // Tambahkan jumlah barang terjual (stock keluar) berdasarkan change
-                $soldProducts[$product->type][$date] += $transaction->change;
+                // Tambahkan profit dan jumlah barang terjual
+                $profitData[$productType][$date] += $transaction->profit ?? 0;
+                $soldProducts[$productType][$date] += $transaction->change ?? 0;
             }
         }
 
-        // Kembalikan view 'profit' dengan data profitData, soldProducts, allDates, dan rentang tanggal
+        // Pastikan semua tanggal memiliki nilai default 0 untuk semua tipe produk
+        foreach ($allDates as $date) {
+            foreach ($profitData as $type => $profits) {
+                if (!isset($profitData[$type][$date])) {
+                    $profitData[$type][$date] = 0;
+                }
+            }
+            foreach ($soldProducts as $type => $sold) {
+                if (!isset($soldProducts[$type][$date])) {
+                    $soldProducts[$type][$date] = 0;
+                }
+            }
+        }
+
+        // Kembalikan view 'profit' dengan data
         return view('profit', compact('profitData', 'soldProducts', 'startDate', 'endDate', 'allDates'));
     }
 }

@@ -12,4 +12,18 @@ class StockLogController extends Controller
         $stockLogs = StockLog::with('product')->latest()->get();
         return view('history', compact('stockLogs'));
     }
+
+    public function updateDate(Request $request, $id)
+{
+    $request->validate([
+        'date' => 'required|date',
+    ]);
+
+    $log = StockLog::findOrFail($id);
+    $log->created_at = $request->date;
+    $log->save();
+
+    return redirect()->route('stocklogs.index')->with('success', 'Date updated successfully.');
+}
+
 }

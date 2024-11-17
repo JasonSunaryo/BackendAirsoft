@@ -25,15 +25,23 @@
         </thead>
         <tbody>
             @forelse($stockLogs as $log)
-                <tr>
-                    <td class="align-middle">{{ $loop->iteration }}</td>
-                    <td class="align-middle">{{ $log->product ? $log->product->title : 'Deleted Product' }}</td>
-                    <td class="align-middle">{{ $log->change > 0 ? "+{$log->change}" : $log->change }}</td>
-                    <td class="align-middle">{{ $log->product ? $log->product->price : 'N/A' }}</td>
-                    <td class="align-middle">{{ $log->product ? $log->product->cost_price : 'N/A' }}</td>
-                    <td class="align-middle">{{ $log->product ? $log->product->type : 'N/A' }}</td>
-                    <td class="align-middle">{{ $log->created_at }}</td>
-                </tr>
+            <tr>
+                <td class="align-middle">{{ $loop->iteration }}</td>
+                <td class="align-middle">{{ $log->product ? $log->product->title : 'Deleted Product' }}</td>
+                <td class="align-middle">{{ $log->change > 0 ? "+{$log->change}" : $log->change }}</td>
+                <td class="align-middle">{{ $log->product ? $log->price : 'N/A' }}</td>
+                <td class="align-middle">{{ $log->product ? $log->cost_price : 'N/A' }}</td>
+                <td class="align-middle">{{ $log->product ? $log->type : 'N/A' }}</td>
+                <td class="align-middle">
+                    <form action="{{ route('stocklogs.updateDate', $log->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <input type="date" name="date" value="{{ $log->created_at->format('Y-m-d') }}" class="form-control d-inline" style="width: auto;">
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                </td>
+            </tr>
+            
             @empty
                 <tr>
                     <td class="text-center" colspan="7">No history found</td>
